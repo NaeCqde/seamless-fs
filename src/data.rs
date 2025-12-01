@@ -20,8 +20,10 @@ pub static STATE: Lazy<MyState> = Lazy::new(|| {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct File_ {
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub origin: Option<String>,
     pub parent: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub url: Option<String>,
     pub name: String,
     pub size: u64,
@@ -40,5 +42,6 @@ pub struct MyState {
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Payload {
     pub origin: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub files: Option<Vec<File_>>,
 }
