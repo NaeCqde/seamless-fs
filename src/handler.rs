@@ -9,9 +9,14 @@ use ntex_files::Directory;
 use percent_encoding::{percent_decode_str, utf8_percent_encode, CONTROLS};
 use reqwest::{header, Client};
 use serde_json::json;
-use std::{collections::HashMap, fmt::Write, io, os::unix::fs::MetadataExt, path::Path};
+use std::{collections::HashMap, fmt::Write, io, path::Path};
 use v_htmlescape::escape as escape_html_entity;
 use walkdir::WalkDir;
+
+#[cfg(not(target_os = "windows"))]
+use std::os::unix::fs::MetadataExt;
+#[cfg(target_os = "windows")]
+use std::os::windows::fs::MetadataExt;
 
 // show file url as relative to static path
 macro_rules! encode_file_url {
@@ -90,7 +95,11 @@ pub fn directory_listing(dir: &Directory, req: &HttpRequest) -> Result<WebRespon
                             parent: parent.to_string(),
                             url: None,
                             name: file_name!(entry),
+
+                            #[cfg(not(target_os = "windows"))]
                             size: metadata.size(),
+                            #[cfg(target_os = "windows")]
+                            size: metadata.file_size(),
                         });
                     }
                 }
@@ -324,7 +333,14 @@ pub async fn handle_update_notify(first: bool) {
                 parent,
                 url: None,
                 name,
+
+                #[cfg(not(target_os = "windows"))]
                 size: entry.metadata().expect("failed to get metadata").size(),
+                #[cfg(target_os = "windows")]
+                size: entry
+                    .metadata()
+                    .expect("failed to get metadata")
+                    .file_size(),
             })
         }
     }
