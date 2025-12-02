@@ -60,5 +60,5 @@ jobs:
               with:
                   executable-name: sfs
                   target: ${{ matrix.platform.target }}
-                  action-gh-release-parameters: '{ "make_latest": true }'
+                  extra-files: example.env
               if: matrix.toolchain == 'stable'

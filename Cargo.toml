@@ -2,6 +2,11 @@
 name = "seamless_fs"
 version = "0.1.0"
 edition = "2021"
+repository = "https://github.com/NaeCqde/seamless-fs"
+
+[package.metadata.release]
+tag-name = "v{{version}}"
+
 
 [[bin]]
 name = "sfs"
