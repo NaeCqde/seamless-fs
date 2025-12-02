@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Seamless FS",
+            "program": "${workspaceRoot}/target/debug/${workspaceRootFolderName}",
+            "args": [],
+            "cwd": "${workspaceRoot}/target/debug/",
+            "envFile": "${workspaceRoot}/.env",
+            "sourceLanguages": ["rust"]
+        }
+    ]
+}

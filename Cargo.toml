@@ -7,7 +7,6 @@ repository = "https://github.com/NaeCqde/seamless-fs"
 [package.metadata.release]
 tag-name = "v{{version}}"
 
-
 [[bin]]
 name = "sfs"
 path = "src/main.rs"
