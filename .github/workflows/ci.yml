@@ -11,10 +11,6 @@ jobs:
         strategy:
             matrix:
                 platform:
-                    - os-name: FreeBSD-x86_64
-                      runs-on: ubuntu-latest
-                      target: x86_64-unknown-freebsd
-
                     - os-name: Linux-x86_64
                       runs-on: ubuntu-latest
                       target: x86_64-unknown-linux-musl
