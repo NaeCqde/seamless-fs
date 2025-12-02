@@ -1,9 +1,17 @@
 name: release
 
 on:
-    push:
-        branches:
-            - "**"
+  push:
+    branches:
+      - "**"
+    tags-ignore:
+      - "sfs-*"
+  pull_request:
+
+env:
+  CRATE_NAME: sfs
+  GITHUB_TOKEN: ${{ github.token }}
+  RUST_BACKTRACE: 1
 
 jobs:
     release:
@@ -34,8 +42,8 @@ jobs:
                     - os-name: macOS-aarch64
                       runs-on: macos-latest
                       target: aarch64-apple-darwin
-                    # more targets here ...
-
+                toolchain:
+                  - stable
         runs-on: ${{ matrix.platform.runs-on }}
         steps:
             - name: Checkout
@@ -52,3 +60,5 @@ jobs:
               with:
                   executable-name: sfs
                   target: ${{ matrix.platform.target }}
+                  action-gh-release-parameters: '{ "make_latest": true }'
+              if: matrix.toolchain == 'stable'
