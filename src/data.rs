@@ -11,6 +11,7 @@ pub static STATE: Lazy<MyState> = Lazy::new(|| {
     MyState {
         host: env.host,
         port: env.port,
+        workers: env.workers,
         origin: env.origin,
         relay_url: env.relay_url,
         token: env.token,
@@ -33,6 +34,7 @@ pub struct File_ {
 pub struct MyState {
     pub host: String,
     pub port: u16,
+    pub workers: usize,
     pub origin: String,
     pub relay_url: String,
     pub token: String,

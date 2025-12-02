@@ -6,7 +6,7 @@ pub struct Env {
     // General
     pub host: String,
     pub port: u16,
-
+    pub workers:usize,
     // seamless file server
     pub origin: String,
     pub relay_url: String,

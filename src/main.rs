@@ -43,6 +43,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                     .files_listing_renderer(handler::directory_listing),
             )
     })
+    .workers(STATE.workers)
     .bind((STATE.host.to_owned(), STATE.port))
     .expect("failed to bind port");
 
