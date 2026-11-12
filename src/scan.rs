@@ -52,7 +52,7 @@ fn file_size(root: &InsideRoot, entry: &DirEntry) -> Option<u64> {
     // a link to a file inside the root is a file like any other
     if kind.is_symlink() && root.contains(entry.path()) {
         let meta = std::fs::metadata(entry.path()).ok()?;
-        return meta.is_file().then(|| meta.len());
+        return meta.is_file().then_some(meta.len());
     }
     None
 }

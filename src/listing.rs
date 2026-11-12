@@ -269,13 +269,13 @@ mod tests {
 
     #[test]
     fn local_rows_come_first() {
-        let mut rows = vec![
+        let mut rows = [
             row("a", "/z", Some(1), true),
             row("b", "/b", Some(1), false),
         ];
         rows.sort_by(order);
         assert_eq!(rows[0].name, "b");
-        let mut rows = vec![
+        let mut rows = [
             row("a", "https://x/a", Some(1), true),
             row("a", "/a", Some(1), false),
         ];
