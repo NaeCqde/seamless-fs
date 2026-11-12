@@ -5,7 +5,9 @@ permissions:
 
 on:
     push:
+        paths-ignore: ["**.md", "LICENSE*", "docs/**", ".gitignore", ".gitattributes", ".prettierrc*", ".editorconfig", ".vscode/**", ".github/dependabot.yml", ".github/workflows/security.yml", "**/.DS_Store"]
     pull_request:
+        paths-ignore: ["**.md", "LICENSE*", "docs/**", ".gitignore", ".gitattributes", ".prettierrc*", ".editorconfig", ".vscode/**", ".github/dependabot.yml", ".github/workflows/security.yml", "**/.DS_Store"]
 
 env:
     CRATE_NAME: sfs
