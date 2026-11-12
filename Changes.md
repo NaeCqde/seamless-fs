@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- **Breaking: needs the new seamless-fs-relay (update both together).**
+  - Each server has its own `TOKEN` (32 characters or more; `sfs token` makes it and prints its SHA-256 for the relay). The relay keeps only the hash.
+  - What the relay sends is signed (Ed25519) and the server checks it with `RELAY_PUBLIC_KEY` (new setting; `sfs keygen`). A server that has the token of another server, or the settings of the relay, cannot register as someone else or send the others a list.
+  - `sfs token`, `sfs hash` and `sfs keygen` added. The calls to the relay use `Authorization: Bearer <TOKEN>`.
+
 - Security
   - Files outside the served directory are no longer reachable through a symbolic link.
   - The token is compared in constant time; a request without it gets 401.
