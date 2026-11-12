@@ -36,9 +36,6 @@ jobs:
                       runs-on: windows-latest
                       target: aarch64-pc-windows-msvc
 
-                    - os-name: macOS-x86_64
-                      runs-on: macos-latest
-                      target: x86_64-apple-darwin
                     - os-name: macOS-aarch64
                       runs-on: macos-latest
                       target: aarch64-apple-darwin
