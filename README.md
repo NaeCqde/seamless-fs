@@ -1,5 +1,7 @@
 # Seamless File Server (`sfs`)
 
+[English](README.en.md) | 日本語
+
 カレントディレクトリのファイルを HTTP で配り、リレー経由で他の `sfs` サーバーのファイルも一覧に並べる。
 
 ```bash
