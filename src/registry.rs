@@ -64,12 +64,15 @@ impl Registry {
             // the folders on the way down, so that each of them can be listed
             let mut dir = String::from("/");
             for segment in entry.parent.split('/').filter(|s| !s.is_empty()) {
-                remote
-                    .dirs
-                    .entry(dir.clone())
-                    .or_default()
-                    .subdirs
-                    .insert(segment.to_owned());
+                // the folder was met before (most entries share their folders): no new key
+                if !remote.dirs.contains_key(&dir) {
+                    remote.dirs.insert(dir.clone(), Default::default());
+                }
+                if let Some(folder) = remote.dirs.get_mut(&dir) {
+                    if !folder.subdirs.contains(segment) {
+                        folder.subdirs.insert(segment.to_owned());
+                    }
+                }
                 dir.push_str(segment);
                 dir.push('/');
             }
