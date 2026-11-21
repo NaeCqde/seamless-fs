@@ -10,3 +10,7 @@ sfs
 ```
 
 Make `TOKEN` a random string of at least 16 characters (shared with the relay). For the specification and what to watch out for, see [docs/SPEC.md](docs/SPEC.md).
+
+## Where the settings are read from
+
+`.env`: the current directory is searched first. If the file is there, only that one is read; if not, the one in the directory of the executable is read.
