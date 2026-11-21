@@ -1,22 +1,22 @@
-# Changes
+# 変更履歴
 
-## Unreleased
+## 未リリース
 
-- **Breaking: needs the new seamless-fs-relay (update both together).**
-  - Each server has its own `TOKEN` (32 characters or more; `sfs token` makes it and prints its SHA-256 for the relay). The relay keeps only the hash.
-  - What the relay sends is signed (Ed25519) and the server checks it with `RELAY_PUBLIC_KEY` (new setting; `sfs keygen`). A server that has the token of another server, or the settings of the relay, cannot register as someone else or send the others a list.
-  - `sfs token`, `sfs hash` and `sfs keygen` added. The calls to the relay use `Authorization: Bearer <TOKEN>`.
+- **互換性なし: 新しい seamless-fs-relay が必要(両方を一緒に更新すること)。**
+  - サーバーごとに別々の `TOKEN` を持つ(32 文字以上。`sfs token` が作り、リレー用の SHA-256 も表示する)。リレーはそのハッシュだけを持つ。
+  - リレーが送る内容は署名(Ed25519)され、サーバーは `RELAY_PUBLIC_KEY`(新しい設定。`sfs keygen`)で確かめる。ほかのサーバーのトークンやリレーの設定を持っていても、別のサーバーとして登録したり、ほかのサーバーに一覧を送ったりはできない。
+  - `sfs token`、`sfs hash`、`sfs keygen` を追加した。リレーへの呼び出しは `Authorization: Bearer <TOKEN>` を使う。
 
-- Security
-  - Files outside the served directory are no longer reachable through a symbolic link.
-  - The token is compared in constant time; a request without it gets 401.
-  - What other servers send is checked: only http(s) links, no odd names; names and links in the page are escaped properly (a quote or `#` in a file name could break out of a link).
-  - Hidden files and hidden folders are no longer advertised to the relay; the page has a Content-Security-Policy, and `nosniff` is sent.
-  - Limits on the registration (body size, files per server, number of servers).
-  - An empty `TOKEN` or a non-http(s) `ORIGIN` / `RELAY_URL` refuses to start; a short token or a plain-http relay is warned about.
-- Behaviour
-  - SIGTERM stops the server like Ctrl-C (and withdraws it from the relay).
-  - The same folder on several servers is always taken from the same one.
-  - Requests to the relay have timeouts and their failures are logged.
-- Code is split into modules and has unit tests; the registry is kept per directory.
-- The macOS x86_64 build is gone.
+- セキュリティ
+  - シンボリックリンク経由で、配信するディレクトリの外のファイルに届かないようにした。
+  - トークンは一定時間で比較する。トークンのないリクエストは 401 になる。
+  - 他のサーバーから送られてくる内容を検査する。http(s) のリンクだけを受け付け、おかしな名前は受け付けない。ページの中の名前とリンクは正しくエスケープする(ファイル名の引用符や `#` でリンクから抜け出せた)。
+  - 隠しファイルと隠しフォルダーを、リレーに知らせないようにした。ページに Content-Security-Policy を付け、`nosniff` を送る。
+  - 登録に上限を付けた(本文の大きさ、サーバーごとのファイル数、サーバーの数)。
+  - `TOKEN` が空のとき、または `ORIGIN` / `RELAY_URL` が http(s) でないときは、起動を拒む。短いトークンや、http だけのリレーには警告を出す。
+- 動作
+  - SIGTERM で、Ctrl-C と同じように停止する(リレーからも取り下げる)。
+  - 同じフォルダーが複数のサーバーにあるときは、いつも同じサーバーから取る。
+  - リレーへのリクエストにタイムアウトを付け、失敗をログに残す。
+- コードをモジュールに分け、単体テストを付けた。登録の管理はディレクトリごとに持つ。
+- macOS x86_64 のビルドをやめた。
