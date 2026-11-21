@@ -45,7 +45,7 @@ impl Relay {
 
     async fn send(&self, request: reqwest::RequestBuilder, body: serde_json::Value, what: &str) {
         let result = request
-            .header(header::AUTHORIZATION, &self.token)
+            .header(header::AUTHORIZATION, format!("Bearer {}", self.token))
             .json(&body)
             .send()
             .await;
