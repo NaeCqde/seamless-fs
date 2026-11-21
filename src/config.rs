@@ -1,6 +1,5 @@
-//! Settings from the environment (and from `.env` in the current directory).
+//! Settings from the environment (and from `.env`: the one in the current directory, or, when there is none, the one next to the executable).
 
-use dotenvy::dotenv_override;
 use reqwest::Url;
 use serde::Deserialize;
 
@@ -28,10 +27,24 @@ pub struct Config {
     pub token: String,
 }
 
+/// `.env` of the current directory; only when it has none, `.env` next to the executable. It wins over the real environment.
+fn load_dotenv() {
+    let cwd = std::path::PathBuf::from(".env");
+    let path = if cwd.is_file() {
+        cwd
+    } else {
+        match std::env::current_exe().ok().and_then(|e| e.canonicalize().ok().or(Some(e))).and_then(|e| e.parent().map(|d| d.join(".env"))) {
+            Some(p) if p.is_file() => p,
+            _ => return,
+        }
+    };
+    let _ = dotenvy::from_path_override(path);
+}
+
 impl Config {
     pub fn load() -> Result<Self, String> {
         // `.env` wins over the real environment (as it always did here)
-        dotenv_override().ok();
+        load_dotenv();
         let raw = envy::from_env::<RawEnv>().map_err(|e| e.to_string())?;
         Self::from_raw(raw)
     }
